@@ -1,0 +1,10 @@
+body {
+  background-color: black;
+  color: white;
+  font-family: Tahoma, Verdana, Arial, sans-serif;
+}
+
+a {
+  color: #00ffff;
+  text-decoration: underline;
+}

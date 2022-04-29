@@ -1,0 +1,16 @@
+{% load static %}
+<html>
+  <head>
+    <title>{{ series_title }} - Tag: {{ tag }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'comic/style.css' %}">
+  </head>
+  <body>
+    <h1><a href="{% url 'comic:index' series_slug %}">{{ series_title }}</a></h1>
+    <p>Tag: {{ tag }}</p>
+    <ul>
+      {% for episode in episode_list %}
+      <li><a href="{% url 'comic:episode' series_slug episode.num %}">{{ series_title }}: Episode {{ episode.num }}</a></li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

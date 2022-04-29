@@ -1,0 +1,48 @@
+{% load static %}
+<html>
+  <head>
+    <title>{{ series_title }}: Episode {{ this_epi_num }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'comic/style.css' %}">
+  </head>
+  <body>
+    <h1><a href="{% url 'comic:index' series_slug %}">{{ series_title }}</a></h1>
+    <p>Episode {{ this_epi_num }}</p>
+    <img src="{{ episode_img_url }}"/>
+    <p>
+      {% if first_epi_num %}
+      <a href="{% url 'comic:episode' series_slug first_epi_num %}">First</a>
+      {% else %}
+      First
+      {% endif %}
+      &bull;
+      {% if prev_epi_num %}
+      <a href="{% url 'comic:episode' series_slug prev_epi_num %}">Prev</a>
+      {% else %}
+      Prev
+      {% endif %}
+      &bull;
+      {% if next_epi_num %}
+      <a href="{% url 'comic:episode' series_slug next_epi_num %}">Next</a>
+      {% else %}
+      Next
+      {% endif %}
+      &bull;
+      {% if last_epi_num %}
+      <a href="{% url 'comic:episode' series_slug last_epi_num %}">Last</a>
+      {% else %}
+      Last
+      {% endif %}
+    </p>
+    <p>
+    Tags:
+    {% for tag in tags %}
+    <a href="{% url 'comic:tag' series_slug tag.slug %}">{{ tag }}</a>
+    {% endfor %}
+    </p>
+    {% if episode_notes %}
+    <p>
+    {{ episode_notes }}
+    </p>
+    {% endif %}
+  </body>
+</html>

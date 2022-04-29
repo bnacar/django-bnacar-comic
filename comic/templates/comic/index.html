@@ -1,0 +1,22 @@
+{% load static %}
+<html>
+  <head>
+    <title>{{ series_title }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'comic/style.css' %}">
+  </head>
+  <body>
+    <h1>{{ series_title }}</h1>
+    <p>{{ series_blurb }}</p>
+    <p>Tags:
+    {% for tag in tags %}
+    <a href="{% url 'comic:tag' series_slug tag.slug %}">{{ tag }}</a>
+    {% endfor %}
+    </p>
+    <ul>
+      {% for episode in episode_list %}
+      <li><a href="{% url 'comic:episode' series_slug episode.num %}">{{ series_title }}: Episode {{ episode.num }}</a></li>
+      {% endfor %}
+    </ul>
+    <p>Converted to a webcomic using <a href="//www.djangoproject.com">Django</a>. Code available on <a href="//github.com/bnacar/django-bnacar-comic">Github</a>.</p>
+  </body>
+</html>
