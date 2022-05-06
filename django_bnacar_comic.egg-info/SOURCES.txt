@@ -12,6 +12,7 @@ comic/tests.py
 comic/urls.py
 comic/views.py
 comic/migrations/0001_initial.py
+comic/migrations/0002_episode_transcript_alter_series_tags.py
 comic/migrations/__init__.py
 comic/static/comic/style.css
 comic/templates/comic/episode.html

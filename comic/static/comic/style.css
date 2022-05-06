@@ -8,3 +8,7 @@ a {
   color: #00ffff;
   text-decoration: underline;
 }
+
+.transcript {
+  display: none;
+}

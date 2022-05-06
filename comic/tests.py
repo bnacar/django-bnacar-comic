@@ -50,7 +50,7 @@ class ComicEpisodeTests(TestCase):
         series2.save()
         episode2_1 = Episode(num=1, comic=series2, imgFile='/tmp/lolcat.jpg')
         episode2_2 = Episode(num=2, comic=series2, imgFile='/tmp/loldog.jpg', notes='woof')
-        episode2_4 = Episode(num=4, comic=series2, imgFile='/tmp/lolol.jpg')
+        episode2_4 = Episode(num=4, comic=series2, imgFile='/tmp/lolol.jpg', transcript='all your base are belong to us')
         episode2_1.save()
         episode2_1.tags.set([tag4])
         episode2_2.save()
@@ -85,6 +85,7 @@ class ComicEpisodeTests(TestCase):
         self.assertNotContains(res2, url3)
         self.assertContains(res2, url4) # link to "next", "last"
         self.assertNotContains(res2, '/tmp/lolcat.jpg')
+        self.assertNotContains(res2, 'all your base are belong to us')
         
         res3 = self.client.get(url3)
         self.assertEqual(res3.status_code, 404)
@@ -93,6 +94,7 @@ class ComicEpisodeTests(TestCase):
         self.assertEqual(res4.status_code, 200)
         self.assertContains(res4, 'Test Series 2')
         self.assertContains(res4, '/tmp/lolol.jpg')
+        self.assertContains(res4, 'all your base are belong to us')
         self.assertContains(res4, 'Fourth Tag')
         self.assertContains(res4, 'Fifth Tag')
         self.assertContains(res4, url1) # link to "first"

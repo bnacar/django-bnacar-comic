@@ -41,7 +41,8 @@ def episode(request, title_slug, episode_num):
         'last_epi_num': last_epi_num,
         'episode_notes': this_epi.notes,
         'episode_img_url': this_epi.imgFile.url,
-        'tags': this_epi.tags.all()
+        'tags': this_epi.tags.all(),
+        'transcript': this_epi.transcript
     }
     return render(request, 'comic/episode.html', context)
 

@@ -8,6 +8,11 @@
     <h1><a href="{% url 'comic:index' series_slug %}">{{ series_title }}</a></h1>
     <p>Episode {{ this_epi_num }}</p>
     <img src="{{ episode_img_url }}"/>
+    {% if transcript %}
+    <div class="transcript">
+    {{ transcript }}
+    </div>
+    {% endif %}
     <p>
       {% if first_epi_num %}
       <a href="{% url 'comic:episode' series_slug first_epi_num %}">First</a>
