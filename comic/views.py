@@ -7,12 +7,19 @@ from .models import Episode, Series, Tag
 # Create your views here.
 def index(request, title_slug):
     series = get_object_or_404(Series, slug=title_slug)
+    all_tag_counts = []
+    for tag in Tag.objects.all():
+        tag_count = Episode.objects.filter(comic=series, tags=tag).count()
+        if tag_count:
+            slug_name_count = (tag.slug, tag.name, tag_count)
+            all_tag_counts.append(slug_name_count)
+    all_tag_counts.sort(key=lambda x: x[0])
     context = {
         'series_title': series.title,
         'series_slug': title_slug,
         'series_blurb': series.blurb,
         'episode_list': series.episode_set.all().order_by('num'),
-        'tags': series.tags.all().order_by('name')
+        'all_tag_counts': all_tag_counts
     }
     return render(request, 'comic/index.html', context)
 

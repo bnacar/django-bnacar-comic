@@ -15,14 +15,9 @@ class ComicTagTests(TestCase):
 
 class ComicSeriesTests(TestCase):
     def test_basic_series(self):
-        tag2 = Tag(name='Second Tag')
-        tag3 = Tag(name='Third Tag')
-        tag2.save()
-        tag3.save()
         series1 = Series(title='Test Series', blurb='beep boop')
         series1.save()
         self.assertEqual(series1.slug, 'woopwoopwoop')
-        series1.tags.set([tag2, tag3])
         series1.slug = 'test-series'
         series1.save()
         url1 = reverse('comic:index', args=('test-series',))
@@ -30,9 +25,6 @@ class ComicSeriesTests(TestCase):
         self.assertEqual(res1.status_code, 200)
         self.assertContains(res1, 'Test Series')
         self.assertContains(res1, 'beep boop')
-        self.assertNotContains(res1, 'First Tag')
-        self.assertContains(res1, 'Second Tag')
-        self.assertContains(res1, 'Third Tag')
         url2 = reverse('comic:index', args=('fake-series',))
         res2 = self.client.get(url2)
         self.assertEqual(res2.status_code, 404)
@@ -44,8 +36,10 @@ class ComicEpisodeTests(TestCase):
     def test_basic_episode(self):
         tag4 = Tag(name='Fourth Tag')
         tag5 = Tag(name='Fifth Tag')
+        tag6 = Tag(name='Sixth Tag')
         tag4.save()
         tag5.save()
+        tag6.save()
         series2 = Series(title='Test Series 2', slug='test2', blurb='something or other')
         series2.save()
         episode2_1 = Episode(num=1, comic=series2, imgFile='/tmp/lolcat.jpg')
@@ -58,10 +52,17 @@ class ComicEpisodeTests(TestCase):
         episode2_4.save()
         episode2_4.tags.set([tag4, tag5])
 
+        url_index = reverse('comic:index', args=('test2',))
         url1 = reverse('comic:episode', args=('test2', 1))
         url2 = reverse('comic:episode', args=('test2', 2))
         url3 = reverse('comic:episode', args=('test2', 3))
         url4 = reverse('comic:episode', args=('test2', 4))
+
+        res_index = self.client.get(url_index)
+        self.assertEqual(res_index.status_code, 200)
+        self.assertContains(res_index, 'Fourth Tag')
+        self.assertContains(res_index, 'Fifth Tag')
+        self.assertNotContains(res_index, 'Sixth Tag')
 
         res1 = self.client.get(url1)
         self.assertEqual(res1.status_code, 200)

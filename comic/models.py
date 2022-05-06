@@ -18,7 +18,6 @@ class Series(models.Model):
     title = models.CharField(max_length=255, default='WOOP WOOP WOOP', unique=True)
     slug = models.CharField(max_length=255, default='woopwoopwoop', unique=True)
     blurb = models.TextField()
-    tags = models.ManyToManyField(Tag, blank=True)
     def __str__(self):
         return self.title
 

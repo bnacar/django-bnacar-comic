@@ -8,8 +8,8 @@
     <h1>{{ series_title }}</h1>
     <p>{{ series_blurb }}</p>
     <p>Tags:
-    {% for tag in tags %}
-    <a href="{% url 'comic:tag' series_slug tag.slug %}">{{ tag }}</a>
+    {% for tag_slug, tag_name, tag_count in all_tag_counts %}
+    <a href="{% url 'comic:tag' series_slug tag_slug %}">{{ tag_name }}</a> ({{ tag_count }})
     {% endfor %}
     </p>
     <ul>
