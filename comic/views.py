@@ -8,18 +8,40 @@ from .models import Episode, Series, Tag
 def index(request, title_slug):
     series = get_object_or_404(Series, slug=title_slug)
     all_tag_counts = []
+    lowest_count = Episode.objects.all().count() # upper bound on lowest
+    highest_count = 0
     for tag in Tag.objects.all():
         tag_count = Episode.objects.filter(comic=series, tags=tag).count()
         if tag_count:
             slug_name_count = (tag.slug, tag.name, tag_count)
             all_tag_counts.append(slug_name_count)
-    all_tag_counts.sort(key=lambda x: x[0])
+            if tag_count < lowest_count:
+                lowest_count = tag_count
+            if highest_count < tag_count:
+                highest_count = tag_count
+    # rescale counts linearly from 0.5 to 2, for display purposes,
+    # unless all tags have the same count, in which case have them all
+    # be size 1
+    slope = 0
+    offset = 1
+    if (highest_count != lowest_count):
+        slope = round(1.25 / (highest_count - lowest_count), 2)
+        offset = round(2 - 1.25 / (1 - lowest_count / highest_count), 2)
+    def rescale(num):
+        return slope * num + offset
+    all_tag_data = [(slug, name, rescale(count)) for (slug, name, count) in all_tag_counts]
+    all_tag_data.sort(key=lambda x: x[0])
+    all_episodes = series.episode_set.all().order_by('num')
+    first_num = 0
+    if all_episodes.count():
+        first_num = all_episodes[0].num
     context = {
         'series_title': series.title,
         'series_slug': title_slug,
         'series_blurb': series.blurb,
-        'episode_list': series.episode_set.all().order_by('num'),
-        'all_tag_counts': all_tag_counts
+        'episode_list': all_episodes,
+        'all_tag_data': all_tag_data,
+        'first_num': first_num
     }
     return render(request, 'comic/index.html', context)
 

@@ -5,18 +5,27 @@
     <link rel="stylesheet" type="text/css" href="{% static 'comic/style.css' %}">
   </head>
   <body>
-    <h1>{{ series_title }}</h1>
-    <p>{{ series_blurb }}</p>
-    <p>Tags:
-    {% for tag_slug, tag_name, tag_count in all_tag_counts %}
-    <a href="{% url 'comic:tag' series_slug tag_slug %}">{{ tag_name }}</a> ({{ tag_count }})
-    {% endfor %}
-    </p>
-    <ul>
-      {% for episode in episode_list %}
-      <li><a href="{% url 'comic:episode' series_slug episode.num %}">{{ series_title }}: Episode {{ episode.num }}</a></li>
+    <div class="text">
+      <h1>{{ series_title }}</h1>
+      <p>{{ series_blurb }}</p>
+      {% if first_num %}
+      <p class="spaced"><a class="startbutton" href="{% url 'comic:episode' series_slug first_num %}">Read from the Beginning</a></p>
+      {% endif %}
+      <h2>Tags</h2>
+      <p>
+      {% for tag_slug, tag_name, tag_size in all_tag_data %}
+      <a href="{% url 'comic:tag' series_slug tag_slug %}" style="font-size: {{ tag_size }}em">{{ tag_name }}</a>
+      &ensp;
       {% endfor %}
-    </ul>
-    <p>Converted to a webcomic using <a href="//www.djangoproject.com">Django</a>. Code available on <a href="//github.com/bnacar/django-bnacar-comic">Github</a>.</p>
+      </p>
+      <h2>Table of Contents</h2>
+      <ul>
+        {% for episode in episode_list %}
+        <li><a href="{% url 'comic:episode' series_slug episode.num %}">{{ series_title }}: Episode {{ episode.num }}</a></li>
+        {% endfor %}
+      </ul>
+      <p>Converted to a webcomic using <a href="//www.djangoproject.com">Django</a>. Code available on <a href="//github.com/bnacar/django-bnacar-comic">Github</a>.</p>
+      <p><a href="/">Back to home page</a></p>
+    </div>
   </body>
 </html>

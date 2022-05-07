@@ -5,12 +5,15 @@
     <link rel="stylesheet" type="text/css" href="{% static 'comic/style.css' %}">
   </head>
   <body>
-    <h1><a href="{% url 'comic:index' series_slug %}">{{ series_title }}</a></h1>
-    <p>Tag: {{ tag }}</p>
+    <div class="text">
+    <h1>{{ series_title }}</h1>
+    <h2>Episodes with tag "{{ tag }}"</h2>
     <ul>
       {% for episode in episode_list %}
       <li><a href="{% url 'comic:episode' series_slug episode.num %}">{{ series_title }}: Episode {{ episode.num }}</a></li>
       {% endfor %}
     </ul>
+    <p><a href="{% url 'comic:index' series_slug %}">Series overview and table of contents</a></p>
+    </div>
   </body>
 </html>

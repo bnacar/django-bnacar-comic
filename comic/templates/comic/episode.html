@@ -2,52 +2,115 @@
 <html>
   <head>
     <title>{{ series_title }}: Episode {{ this_epi_num }}</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" type="text/css" href="{% static 'comic/style.css' %}">
   </head>
   <body>
-    <h1><a href="{% url 'comic:index' series_slug %}">{{ series_title }}</a></h1>
-    <p>Episode {{ this_epi_num }}</p>
-    <img src="{{ episode_img_url }}"/>
+    <table class="title">
+      <tr>
+        <td class="left">{{ series_title }}</td>
+        <td class="center">Episode {{ this_epi_num }}</td>
+        <td class="right"><a href="{% url 'comic:index' series_slug %}">Table of Contents</a></div>
+      </tr>
+    </table>
+    <table class="feature">
+      <tr>
+        <td>
+          <div class="svg-container">
+            {% if first_epi_num %}
+            <a href="{% url 'comic:episode' series_slug first_epi_num %}">
+              <svg version="1.1" viewBox="0 0 60 100">
+                <polygon points="10,50 30,5 30,95" style="fill: transparent; stroke: #00ffff; stroke-width: 2" />
+                <polygon points="30,50 50,5 50,95" style="fill: transparent; stroke: #00ffff; stroke-width: 2" />
+                First
+              </svg>
+            </a>
+            {% else %}
+            <svg version="1.1" viewBox="0 0 60 100">
+              <polygon points="10,50 30,5 30,95" style="fill: transparent; stroke: white; stroke-width: 2" />
+              <polygon points="30,50 50,5 50,95" style="fill: transparent; stroke: white; stroke-width: 2" />
+              First
+            </svg>
+            {% endif %}
+          </div>
+        </td>
+        <td>
+          <div class="svg-container">
+            {% if prev_epi_num %}
+            <a href="{% url 'comic:episode' series_slug prev_epi_num %}">
+              <svg version="1.1" viewBox="0 0 60 100">
+                <polygon points="10,50 30,5 30,95" style="fill: transparent; stroke: #00ffff; stroke-width: 2" />
+                Prev
+              </svg>
+            </a>
+            {% else %}
+            <svg version="1.1" viewBox="0 0 60 100">
+              <polygon points="10,50 30,5 30,95" style="fill: transparent; stroke: white; stroke-width: 2" />
+              Prev
+            </svg>
+            {% endif %}
+          </div>
+        </td>
+        <td>
+          <img class="comic" src="{{ episode_img_url }}"/>
+        </td>
+        <td>
+          <div class="svg-container">
+            {% if next_epi_num %}
+            <a href="{% url 'comic:episode' series_slug next_epi_num %}">
+              <svg version="1.1" viewBox="0 0 60 100">
+                <polygon points="50,50 30,5 30,95" style="fill: transparent; stroke: #00ffff; stroke-width: 2" />
+                Next
+              </svg>
+            </a>
+            {% else %}
+            <svg version="1.1" viewBox="0 0 60 100">
+              <polygon points="50,50 30,5 30,95" style="fill: transparent; stroke: white; stroke-width: 2" />
+              Next
+            </svg>
+            {% endif %}
+          </div>
+        </td>
+        <td>
+          <div class="svg-container">
+            {% if last_epi_num %}
+            <a href="{% url 'comic:episode' series_slug last_epi_num %}">
+              <svg version="1.1" viewBox="0 0 60 100">
+                <polygon points="50,50 30,5 30,95" style="fill: transparent; stroke: #00ffff; stroke-width: 2" />
+                <polygon points="30,50 10,5 10,95" style="fill: transparent; stroke: #00ffff; stroke-width: 2" />
+                Last
+              </svg>
+            </a>
+            {% else %}
+            <svg version="1.1" viewBox="0 0 60 100">
+              <polygon points="50,50 30,5 30,95" style="fill: transparent; stroke: white; stroke-width: 2" />
+              <polygon points="30,50 10,5 10,95" style="fill: transparent; stroke: white; stroke-width: 2" />
+              Last
+            </svg>
+            {% endif %}
+          </div>
+        </td>
+      </tr>
+    </table>
     {% if transcript %}
     <div class="transcript">
     {{ transcript }}
     </div>
     {% endif %}
-    <p>
-      {% if first_epi_num %}
-      <a href="{% url 'comic:episode' series_slug first_epi_num %}">First</a>
-      {% else %}
-      First
+    <div class="text">
+      <div class="episode_tags">
+        Tags:
+        {% for tag in tags %}
+        &ensp;
+        <a href="{% url 'comic:tag' series_slug tag.slug %}">{{ tag }}</a>
+        {% endfor %}
+      </div>
+      {% if episode_notes %}
+      <p>
+        {{ episode_notes }}
+      </p>
       {% endif %}
-      &bull;
-      {% if prev_epi_num %}
-      <a href="{% url 'comic:episode' series_slug prev_epi_num %}">Prev</a>
-      {% else %}
-      Prev
-      {% endif %}
-      &bull;
-      {% if next_epi_num %}
-      <a href="{% url 'comic:episode' series_slug next_epi_num %}">Next</a>
-      {% else %}
-      Next
-      {% endif %}
-      &bull;
-      {% if last_epi_num %}
-      <a href="{% url 'comic:episode' series_slug last_epi_num %}">Last</a>
-      {% else %}
-      Last
-      {% endif %}
-    </p>
-    <p>
-    Tags:
-    {% for tag in tags %}
-    <a href="{% url 'comic:tag' series_slug tag.slug %}">{{ tag }}</a>
-    {% endfor %}
-    </p>
-    {% if episode_notes %}
-    <p>
-    {{ episode_notes }}
-    </p>
-    {% endif %}
+    </div>
   </body>
 </html>

@@ -2,13 +2,92 @@ body {
   background-color: black;
   color: white;
   font-family: Tahoma, Verdana, Arial, sans-serif;
+  font-size: 1em;
+  text-align: left;
+  -webkit-text-size-adjust: 100%;
+}
+
+table.feature {
+  margin: auto;
+  border: 0px;
+}
+
+table.title {
+  font-weight: bold;
+  margin: auto;
+  border: 0px;
+  font-size: 1em;
+}
+
+td.left {
+  width: 33vw;
+  max-width: 200px;
+  text-align: left;
+}
+
+td.center {
+  width: 34vw;
+  max-width: 200px;
+  text-align: center;
+}
+
+td.right {
+  width: 33vw;
+  max-width: 200px;
+  text-align: right;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 2em;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 1.5em;
 }
 
 a {
   color: #00ffff;
-  text-decoration: underline;
+  text-decoration: none;
+}
+
+a.startbutton {
+  border: 2px solid #00ffff;
+  border-radius: 5px;
+  font-weight: bold;
+  padding: 0.5em 1em;
+}
+
+.spaced {
+  padding: 1em;
+}
+
+img.comic {
+  border: 2px solid white;
+  border-radius: 5px;
+  width: 60vw;
+  height: auto;
+  max-width: 600px;
+  max-height: 400px;
 }
 
 .transcript {
   display: none;
+}
+
+.episode_tags {
+  font-size: 0.75em;
+  padding: 0.25em 0;
+}
+
+.svg-container {
+  width: 6vw;
+  height: auto;
+  max-width: 60px;
+}
+
+.text {
+  max-width: 600px;
+  margin: auto;
 }
