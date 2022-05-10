@@ -19,16 +19,16 @@ def index(request, title_slug):
                 lowest_count = tag_count
             if highest_count < tag_count:
                 highest_count = tag_count
-    # rescale counts linearly from 0.5 to 2, for display purposes,
+    # rescale counts linearly from 0.75 to 2, for display purposes,
     # unless all tags have the same count, in which case have them all
     # be size 1
     slope = 0
     offset = 1
     if (highest_count != lowest_count):
-        slope = round(1.25 / (highest_count - lowest_count), 2)
-        offset = round(2 - 1.25 / (1 - lowest_count / highest_count), 2)
+        slope = 1.25 / (highest_count - lowest_count)
+        offset = 2 - 1.25 / (1 - lowest_count / highest_count)
     def rescale(num):
-        return slope * num + offset
+        return round(slope * num + offset, 2)
     all_tag_data = [(slug, name, rescale(count)) for (slug, name, count) in all_tag_counts]
     all_tag_data.sort(key=lambda x: x[0])
     all_episodes = series.episode_set.all().order_by('num')

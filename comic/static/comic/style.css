@@ -72,6 +72,13 @@ img.comic {
   max-height: 400px;
 }
 
+img.thumb {
+  border: 2px solid white;
+  border-radius: 5px;
+  width: 9em;
+  height: 6em;
+}
+
 .transcript {
   display: none;
 }

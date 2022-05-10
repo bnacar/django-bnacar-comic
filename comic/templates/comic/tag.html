@@ -10,7 +10,11 @@
     <h2>Episodes with tag "{{ tag }}"</h2>
     <ul>
       {% for episode in episode_list %}
-      <li><a href="{% url 'comic:episode' series_slug episode.num %}">{{ series_title }}: Episode {{ episode.num }}</a></li>
+      <li>
+        <a href="{% url 'comic:episode' series_slug episode.num %}">{{ series_title }}: Episode {{ episode.num }}</a>
+        <br/>
+        <a href="{% url 'comic:episode' series_slug episode.num %}"><img class="thumb" src="{{ episode.imgFile.url }}"/></a>
+      </li>
       {% endfor %}
     </ul>
     <p><a href="{% url 'comic:index' series_slug %}">Series overview and table of contents</a></p>

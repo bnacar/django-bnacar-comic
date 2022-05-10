@@ -1,6 +1,6 @@
 Metadata-Version: 1.2
 Name: django-bnacar-comic
-Version: 0.4
+Version: 0.5
 Summary: A bare-bones Django app for webcomics.
 Home-page: https://github.com/bnacar/django-bnacar-comic/
 Author: Benjamin Nacar

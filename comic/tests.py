@@ -43,7 +43,7 @@ class ComicEpisodeTests(TestCase):
         series2 = Series(title='Test Series 2', slug='test2', blurb='something or other')
         series2.save()
         episode2_1 = Episode(num=1, comic=series2, imgFile='/tmp/lolcat.jpg')
-        episode2_2 = Episode(num=2, comic=series2, imgFile='/tmp/loldog.jpg', notes='woof')
+        episode2_2 = Episode(num=2, comic=series2, imgFile='/tmp/loldog.jpg', notes='wikipedia: https://en.wikipedia.org/wiki/Main_Page')
         episode2_4 = Episode(num=4, comic=series2, imgFile='/tmp/lolol.jpg', transcript='all your base are belong to us')
         episode2_1.save()
         episode2_1.tags.set([tag4])
@@ -57,6 +57,7 @@ class ComicEpisodeTests(TestCase):
         url2 = reverse('comic:episode', args=('test2', 2))
         url3 = reverse('comic:episode', args=('test2', 3))
         url4 = reverse('comic:episode', args=('test2', 4))
+        url_tag5 = reverse('comic:tag', args=('test2', 'fifth-tag'))
 
         res_index = self.client.get(url_index)
         self.assertEqual(res_index.status_code, 200)
@@ -86,6 +87,7 @@ class ComicEpisodeTests(TestCase):
         self.assertNotContains(res2, url3)
         self.assertContains(res2, url4) # link to "next", "last"
         self.assertNotContains(res2, '/tmp/lolcat.jpg')
+        self.assertContains(res2, 'href="https://en.wikipedia.org/wiki/Main_Page"')
         self.assertNotContains(res2, 'all your base are belong to us')
         
         res3 = self.client.get(url3)
@@ -98,7 +100,18 @@ class ComicEpisodeTests(TestCase):
         self.assertContains(res4, 'all your base are belong to us')
         self.assertContains(res4, 'Fourth Tag')
         self.assertContains(res4, 'Fifth Tag')
+        self.assertNotContains(res4, 'en.wikipedia.org')
         self.assertContains(res4, url1) # link to "first"
         self.assertContains(res4, url2) # link to "prev"
         self.assertNotContains(res4, url3)
         self.assertNotContains(res4, url4)
+
+        res5 = self.client.get(url_tag5)
+        self.assertEqual(res5.status_code, 200)
+        self.assertNotContains(res5, url1)
+        self.assertContains(res5, url2)
+        self.assertNotContains(res5, url3)
+        self.assertContains(res5, url4)
+        self.assertNotContains(res5, '/tmp/lolcat.jpg')
+        self.assertContains(res5, '/tmp/loldog.jpg')
+        self.assertContains(res5, '/tmp/lolol.jpg')
